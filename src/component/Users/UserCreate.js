@@ -5,23 +5,34 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { useForm } from 'react-hook-form';
+import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
+import authUser from '../../services/api/api';
+
 const UserCreate =()=>{
     const paperStyle={padding :20,height:'70vh',width:500, margin:"20px auto"}
-    const avatarStyle={backgroundColor:'#1bbd7e'}
     const btnstyle={margin:'8px 2px',width:100}
 
+    const navigate = useNavigate();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     
-    const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
-    const onSubmit = data => console.log(data);
-    const birthdayChange = (newValue) => {
-      setValue(newValue);
+    const [dob, setDob] = React.useState('');
+    const {http,setToken} = authUser();
+    const onSubmit = data => {
+        
+        data.dob = moment(dob).format('y-M-D');
+
+       http.post('/register',data).then((res)=>{
+        navigate('/login');
+       })
+        
 
     };
 
     return(
         <Card>
+            
         <Grid item xs={12} lg={4} >
             <Paper elevation={10} style={paperStyle}>
                 <Grid align='center'>
@@ -59,6 +70,20 @@ const UserCreate =()=>{
                             {errors.email && <span>This field is required</span>}
                     </Grid>
 
+                     {/* password  */}
+                     <Grid item xs={12} lg={12}>
+                            <TextField 
+                            label='Password ' 
+                            placeholder='Enter password' type='password' 
+                            variant="outlined" 
+                            fullWidth 
+                            size = "small"
+                            name='password'
+                            {...register("password", { required: true })}
+                            />
+                            {errors.password && <span>This field is required</span>}
+                    </Grid>
+
                      {/* Address */}
                      <Grid item xs={12} lg={12}>
                             <TextField 
@@ -94,8 +119,8 @@ const UserCreate =()=>{
                         <DesktopDatePicker
                             label="Birth Day"
                             inputFormat="MM/DD/YYYY"
-                            value={value}
-                            onChange={birthdayChange}
+                            value={dob}
+                            onChange={e=>setDob(e)}
                             name="date_picker"
                             renderInput={(params) => 
                             <TextField {...params}  size = "small" />}

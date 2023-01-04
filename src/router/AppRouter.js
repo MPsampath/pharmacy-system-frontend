@@ -4,6 +4,8 @@ import {useParams} from 'react-router-dom';
 import Header from '../component/Header';
 import Login from '../component/Login';
 import UserCreate from '../component/Users/UserCreate';
+import PrescriptHome from '../component/prescription/prescriptions_home';
+import PrescriptionUpload from '../component/prescription/prescription_upload';
 
 export default function AppRouter() {
   return (
@@ -23,6 +25,8 @@ export default function AppRouter() {
             }
           />
           <Route path="/new_user" element={<UserCreate />} />
+          <Route path="/prescription_home" element={<PrescriptHome />} />
+          <Route path="/prescription_upload" element={<PrescriptionUpload />} />
         </Routes>
       </div>
     </Router>
