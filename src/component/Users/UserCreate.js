@@ -11,7 +11,6 @@ import authUser from '../../services/api/api';
 
 const UserCreate =()=>{
     const paperStyle={padding :20,height:'70vh',width:500, margin:"20px auto"}
-    const avatarStyle={backgroundColor:'#1bbd7e'}
     const btnstyle={margin:'8px 2px',width:100}
 
     const navigate = useNavigate();
@@ -22,8 +21,7 @@ const UserCreate =()=>{
     const {http,setToken} = authUser();
     const onSubmit = data => {
         
-        data.dob = moment(dob).format('DD/MM/YYYY');
-        console.log(data);
+        data.dob = moment(dob).format('y-M-D');
 
        http.post('/register',data).then((res)=>{
         navigate('/login');

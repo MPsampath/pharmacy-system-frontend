@@ -27,7 +27,7 @@ export default function AuthUser() {
 
         setToken(token);
         setUser(user);
-        navi('/new_user')
+        navi('/prescription_home')
     }
     
     const http = axios.create({
