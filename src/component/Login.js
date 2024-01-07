@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, Paper, TextField, Typography } from '@mui/material'
 import authUser from '../services/api/api'
+import axios from 'axios'
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
 const Login=()=>{
     //Style Variables
@@ -10,20 +12,28 @@ const Login=()=>{
     const btnstyle={margin:'8px 0'}
 
     //Data state
-    const {http,setToken} = authUser();
     const [username,setUserName] = useState();
     const [password,setPassword] = useState();
+    const signIn = useSignIn();
 
-
-    const submitForm = () =>{
+    const submitForm =  async () =>{
         const user ={
             username: username,
             password: password,
         }
-
-        http.post('/login',{email:username,password:password}).then((res)=>{
-            setToken(res.data.user,res.data.access_token);
-        })
+        try {
+            const response = await axios.post('http://localhost:8002/api/login',{email:username,password:password}).then((res)=>{
+                signIn({
+                    token: res.data.token,
+                    expiresIn: 3600,
+                    tokenType: "Bearer",
+                    authState: {email: username}
+                })
+            })  
+        } catch (error) {
+            
+        }
+       
 
     }
 

@@ -7,7 +7,8 @@ export default function AuthUser() {
 
     const getToken = ()=>{
         const tokenString = sessionStorage.getItem('token');
-        const userToken = JSON.parse(tokenString);
+        console.log(tokenString);
+        const userToken = JSON.parse(null);
         return userToken;
     }
 
@@ -22,9 +23,9 @@ export default function AuthUser() {
     const [user,setUser] = useState(getUser());
 
     const saveToken = (user,token)=>{
-        sessionStorage.setItem('token',JSON.stringify(token));
-        sessionStorage.setItem('user',JSON.stringify(user));
-
+        sessionStorage.setItem('token','12345678');
+        sessionStorage.setItem('user','1');
+        console.log(user,token);
         setToken(token);
         setUser(user);
         navi('/prescription_home')
